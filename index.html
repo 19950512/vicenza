@@ -3,10 +3,45 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Vicenza Residencial — by Embraplan</title>
+<meta name="theme-color" content="#08141f" />
+
+<title>Vicenza Residencial em Osasco | Apartamentos de 2 Dormitórios — Embraplan</title>
+<meta name="description" content="Vicenza Residencial: apartamentos de 2 dormitórios de 40 a 87 m² no bairro São Pedro, Osasco/SP. Lazer completo entregue equipado e decorado, próximo ao Rodoanel e à Linha 8 (Diamante). Agende sua visita." />
+<meta name="keywords" content="Vicenza Residencial, apartamento Osasco, 2 dormitórios Osasco, São Pedro Osasco, Embraplan, apartamento com lazer, garden Osasco, lançamento Osasco" />
+<meta name="author" content="Embraplan — Construção e Incorporação" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<link rel="canonical" href="https://vicenzaresidencial.com.br/" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Vicenza Residencial" />
+<meta property="og:title" content="Vicenza Residencial em Osasco | Apartamentos de 2 Dormitórios" />
+<meta property="og:description" content="Apartamentos de 2 dormitórios de 40 a 87 m² no bairro São Pedro, Osasco/SP. Lazer completo entregue equipado e decorado. Realização Embraplan." />
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:url" content="https://vicenzaresidencial.com.br/" />
+<meta property="og:image" content="https://vicenzaresidencial.com.br/images/06.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Vicenza Residencial — piscina e área de lazer" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Vicenza Residencial em Osasco | Apartamentos de 2 Dormitórios" />
+<meta name="twitter:description" content="Apartamentos de 2 dormitórios de 40 a 87 m² no bairro São Pedro, Osasco/SP. Lazer completo entregue equipado e decorado." />
+<meta name="twitter:image" content="https://vicenzaresidencial.com.br/images/06.png" />
+
+<!-- Icons -->
+<link rel="icon" type="image/svg+xml" href="images/embraplan-logo.svg" />
+<link rel="apple-touch-icon" href="images/embraplan-logo.svg" />
+
+<!-- Resource hints / Preload -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="dns-prefetch" href="https://maps.google.com" />
+<link rel="dns-prefetch" href="https://vendas.gestorimob.com.br" />
+<link rel="preload" as="image" href="images/06.png" fetchpriority="high" />
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@300;400;500;600;700&display=swap" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 <style>
   :root {
     --navy-900: #08141f;
@@ -249,6 +284,9 @@
   .lightbox .lb-close { position: absolute; top: 26px; right: 32px; background: none; border: 1px solid var(--line); color: var(--cream); width: 46px; height: 46px; border-radius: 50%; font-size: 22px; cursor: pointer; transition: all .3s; }
   .lightbox .lb-close:hover { border-color: var(--gold); color: var(--gold); }
 
+  /* a11y skip link */
+  .skip-link { position: absolute; left: -9999px; top: 0; background: var(--gold); color: var(--navy-900); padding: 10px 16px; font-size: 13px; font-weight: 600; z-index: 1000; text-decoration: none; }
+  .skip-link:focus { left: 12px; top: 12px; }
   /* reveal */
   .reveal { opacity: 0; transform: translateY(32px); transition: opacity 1s var(--ease), transform 1s var(--ease); }
   .reveal.in { opacity: 1; transform: none; }
@@ -279,28 +317,91 @@
     .tipo-card { flex-direction: column; align-items: flex-start; gap: 10px; }
   }
 </style>
+
+<!-- Structured data: Residence + Organization + LocalBusiness -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Residence",
+      "name": "Vicenza Residencial",
+      "description": "Empreendimento residencial com apartamentos de 2 dormitórios de 40 a 87 m², com área de lazer completa entregue equipada e decorada.",
+      "url": "https://vicenzaresidencial.com.br/",
+      "image": [
+        "https://vicenzaresidencial.com.br/images/01.png",
+        "https://vicenzaresidencial.com.br/images/06.png",
+        "https://vicenzaresidencial.com.br/images/02.png"
+      ],
+      "numberOfRooms": 2,
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Travessa Três de Outubro, 111",
+        "addressLocality": "Osasco",
+        "addressRegion": "SP",
+        "addressCountry": "BR",
+        "postalCode": "06013-000"
+      },
+      "amenityFeature": [
+        {"@type": "LocationFeatureSpecification", "name": "Piscina", "value": true},
+        {"@type": "LocationFeatureSpecification", "name": "Academia", "value": true},
+        {"@type": "LocationFeatureSpecification", "name": "Quadra poliesportiva", "value": true},
+        {"@type": "LocationFeatureSpecification", "name": "Playground", "value": true},
+        {"@type": "LocationFeatureSpecification", "name": "Brinquedoteca", "value": true},
+        {"@type": "LocationFeatureSpecification", "name": "Coworking / Office", "value": true},
+        {"@type": "LocationFeatureSpecification", "name": "Pet Care", "value": true},
+        {"@type": "LocationFeatureSpecification", "name": "Salão de Festas", "value": true},
+        {"@type": "LocationFeatureSpecification", "name": "Espaço Gourmet", "value": true},
+        {"@type": "LocationFeatureSpecification", "name": "Vagas cobertas", "value": true}
+      ]
+    },
+    {
+      "@type": "Organization",
+      "name": "Embraplan — Construção e Incorporação",
+      "url": "https://embraplan.com",
+      "logo": "https://vicenzaresidencial.com.br/images/embraplan-logo.svg",
+      "telephone": "+55-11-93800-1012",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+55-11-93800-1012",
+        "contactType": "sales",
+        "areaServed": "BR",
+        "availableLanguage": ["Portuguese"]
+      }
+    },
+    {
+      "@type": "WebSite",
+      "url": "https://vicenzaresidencial.com.br/",
+      "name": "Vicenza Residencial",
+      "inLanguage": "pt-BR"
+    }
+  ]
+}
+</script>
 </head>
 <body>
+
+<a class="skip-link" href="#sobre">Pular para o conteúdo</a>
 
 <!-- NAV -->
 <header class="nav" id="nav">
   <div class="wrap nav-inner">
-    <a href="#top" class="brand">
+    <a href="#top" class="brand" aria-label="Vicenza Residencial — início">
       <span class="name">VICENZA</span>
       <span class="by">Residencial · by Embraplan</span>
     </a>
-    <nav class="nav-links">
+    <nav class="nav-links" aria-label="Principal">
       <a href="#sobre">O Empreendimento</a>
       <a href="#lazer">Lazer</a>
       <a href="#plantas">Plantas</a>
       <a href="#local">Localização</a>
       <a href="#contato" class="btn nav-cta">Agende sua visita</a>
     </nav>
-    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <button class="burger" id="burger" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>
   </div>
 </header>
 
-<div class="mobile-menu" id="mobileMenu">
+<div class="mobile-menu" id="mobileMenu" aria-label="Menu móvel">
   <a href="#sobre">O Empreendimento</a>
   <a href="#lazer">Lazer</a>
   <a href="#plantas">Plantas</a>
@@ -310,7 +411,7 @@
 
 <!-- HERO -->
 <section class="hero" id="top">
-  <img class="hero-img" src="images/06.png" alt="Piscina do Vicenza Residencial" />
+  <img class="hero-img" src="images/06.png" alt="Piscina do Vicenza Residencial" width="1920" height="1080" fetchpriority="high" decoding="async" />
   <div class="wrap hero-content">
     <span class="eyebrow">Embraplan apresenta</span>
     <h1 class="display">Vicenza</h1>
@@ -351,7 +452,7 @@
         <p class="lead">Sinta a diferença no conceito de moradia da Embraplan: ampla área de lazer entregue equipada e decorada, e detalhes pensados para transformar a sua rotina em experiência.</p>
       </div>
       <div class="about-img reveal">
-        <img src="images/02.png" alt="Living decorado do apartamento Vicenza" />
+        <img src="images/02.png" alt="Living decorado do apartamento Vicenza Residencial" loading="lazy" decoding="async" width="800" height="600" />
         <span class="frame-tag">Perspectiva ilustrada · living</span>
       </div>
     </div>
@@ -390,16 +491,16 @@
     </div>
 
     <div class="gallery reveal">
-      <figure class="tile t-wide t-tall" data-cap="Vista aérea · área de lazer"><img src="images/01.png" alt="Vista aérea da área de lazer" /><figcaption><span class="s">Implantação</span><span class="t">Vista aérea do lazer</span></figcaption></figure>
-      <figure class="tile" data-cap="Piscina adulto e infantil"><img src="images/06.png" alt="Piscina" /><figcaption><span class="s">Entregue decorada</span><span class="t">Piscina</span></figcaption></figure>
-      <figure class="tile" data-cap="Quadra poliesportiva"><img src="images/07.png" alt="Quadra" /><figcaption><span class="s">Esporte</span><span class="t">Quadra</span></figcaption></figure>
-      <figure class="tile" data-cap="Academia equipada"><img src="images/05.png" alt="Academia" /><figcaption><span class="s">Equipada</span><span class="t">Academia</span></figcaption></figure>
-      <figure class="tile" data-cap="Playground"><img src="images/04.png" alt="Playground" /><figcaption><span class="s">Para as crianças</span><span class="t">Playground</span></figcaption></figure>
-      <figure class="tile t-wide" data-cap="Brinquedoteca"><img src="images/09.png" alt="Brinquedoteca" /><figcaption><span class="s">Lúdico e seguro</span><span class="t">Brinquedoteca</span></figcaption></figure>
-      <figure class="tile" data-cap="Office · espaço de trabalho"><img src="images/11.png" alt="Office" /><figcaption><span class="s">Coworking</span><span class="t">Office</span></figcaption></figure>
-      <figure class="tile" data-cap="Pet Care"><img src="images/12.png" alt="Pet Care" /><figcaption><span class="s">Para o seu pet*</span><span class="t">Pet Care</span></figcaption></figure>
-      <figure class="tile" data-cap="Lavanderia"><img src="images/10.png" alt="Lavanderia" /><figcaption><span class="s">Praticidade*</span><span class="t">Lavanderia</span></figcaption></figure>
-      <figure class="tile" data-cap="Minimercado"><img src="images/08.png" alt="Minimercado" /><figcaption><span class="s">No térreo*</span><span class="t">Minimercado</span></figcaption></figure>
+      <figure class="tile t-wide t-tall" data-cap="Vista aérea · área de lazer"><img src="images/01.png" alt="Vista aérea da área de lazer do Vicenza Residencial" loading="lazy" decoding="async" width="800" height="600" /><figcaption><span class="s">Implantação</span><span class="t">Vista aérea do lazer</span></figcaption></figure>
+      <figure class="tile" data-cap="Piscina adulto e infantil"><img src="images/06.png" alt="Piscina adulto e infantil entregue decorada" loading="lazy" decoding="async" width="600" height="450" /><figcaption><span class="s">Entregue decorada</span><span class="t">Piscina</span></figcaption></figure>
+      <figure class="tile" data-cap="Quadra poliesportiva"><img src="images/07.png" alt="Quadra poliesportiva" loading="lazy" decoding="async" width="600" height="450" /><figcaption><span class="s">Esporte</span><span class="t">Quadra</span></figcaption></figure>
+      <figure class="tile" data-cap="Academia equipada"><img src="images/05.png" alt="Academia equipada do condomínio" loading="lazy" decoding="async" width="600" height="450" /><figcaption><span class="s">Equipada</span><span class="t">Academia</span></figcaption></figure>
+      <figure class="tile" data-cap="Playground"><img src="images/04.png" alt="Playground infantil" loading="lazy" decoding="async" width="600" height="450" /><figcaption><span class="s">Para as crianças</span><span class="t">Playground</span></figcaption></figure>
+      <figure class="tile t-wide" data-cap="Brinquedoteca"><img src="images/09.png" alt="Brinquedoteca lúdica e segura" loading="lazy" decoding="async" width="800" height="450" /><figcaption><span class="s">Lúdico e seguro</span><span class="t">Brinquedoteca</span></figcaption></figure>
+      <figure class="tile" data-cap="Office · espaço de trabalho"><img src="images/11.png" alt="Office coworking" loading="lazy" decoding="async" width="600" height="450" /><figcaption><span class="s">Coworking</span><span class="t">Office</span></figcaption></figure>
+      <figure class="tile" data-cap="Pet Care"><img src="images/12.png" alt="Espaço Pet Care" loading="lazy" decoding="async" width="600" height="450" /><figcaption><span class="s">Para o seu pet*</span><span class="t">Pet Care</span></figcaption></figure>
+      <figure class="tile" data-cap="Lavanderia"><img src="images/10.png" alt="Lavanderia compartilhada" loading="lazy" decoding="async" width="600" height="450" /><figcaption><span class="s">Praticidade*</span><span class="t">Lavanderia</span></figcaption></figure>
+      <figure class="tile" data-cap="Minimercado"><img src="images/08.png" alt="Minimercado no térreo" loading="lazy" decoding="async" width="600" height="450" /><figcaption><span class="s">No térreo*</span><span class="t">Minimercado</span></figcaption></figure>
     </div>
     <p class="lazer-note">Mais espaços de lazer: Espaço Gourmet, Salão de Festas, Salão de Jogos, Praça e Pet Place. *Espaços com infraestrutura preparada, a serem implantados futuramente pelo condomínio. Imagens meramente ilustrativas.</p>
   </div>
@@ -409,7 +510,7 @@
 <section class="pad tipo" id="plantas">
   <div class="wrap">
     <div class="tipo-grid">
-      <div class="tipo-img reveal"><img src="images/03.png" alt="Sala de estar e jantar do apartamento" /></div>
+      <div class="tipo-img reveal"><img src="images/03.png" alt="Sala de estar e jantar do apartamento decorado" loading="lazy" decoding="async" width="800" height="520" /></div>
       <div class="tipo-text reveal">
         <span class="eyebrow">Plantas & tipologias</span>
         <h2 class="section-title">Apartamentos de <em>2 dormitórios.</em></h2>
@@ -472,7 +573,7 @@
       <div class="map-wrap reveal">
         <iframe
           src="https://maps.google.com/maps?q=Travessa%20Tr%C3%AAs%20de%20Outubro%2C%20111%20-%20Osasco%2C%20SP&t=&z=15&ie=UTF8&iwloc=&output=embed"
-          loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Localização do Vicenza Residencial"></iframe>
+          loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Localização do Vicenza Residencial em Osasco" width="600" height="500"></iframe>
       </div>
     </div>
   </div>
@@ -480,7 +581,7 @@
 
 <!-- CONTATO -->
 <section class="pad form-sec" id="contato">
-  <img class="form-bg" src="images/01.png" alt="" />
+  <img class="form-bg" src="images/01.png" alt="" loading="lazy" decoding="async" aria-hidden="true" width="1920" height="1080" />
   <div class="wrap">
     <div class="form-grid">
       <div class="form-intro reveal">
@@ -589,6 +690,7 @@
     const open = state ?? !menu.classList.contains('open');
     menu.classList.toggle('open', open);
     burger.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', String(open));
     document.body.style.overflow = open ? 'hidden' : '';
   };
   burger.addEventListener('click', () => toggleMenu());
