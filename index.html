@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vicenza Residencial — by Embraplan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --navy-900: #08141f;
+    --navy-850: #0b1b2b;
+    --navy-800: #102639;
+    --navy-700: #16314e;
+    --gold: #c8a24a;
+    --gold-bright: #e0bd62;
+    --cream: #f3ede1;
+    --cream-dim: #c9c3b6;
+    --cream-faint: rgba(243, 237, 225, 0.55);
+    --line: rgba(200, 162, 74, 0.22);
+    --line-soft: rgba(243, 237, 225, 0.1);
+    --serif: "Cormorant Garamond", Georgia, serif;
+    --sans: "Manrope", system-ui, sans-serif;
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --maxw: 1240px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans);
+    background: var(--navy-900);
+    color: var(--cream);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  ::selection { background: var(--gold); color: var(--navy-900); }
+  img { display: block; max-width: 100%; }
+
+  .wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 32px; }
+
+  .eyebrow {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--gold); display: inline-flex; align-items: center; gap: 14px;
+  }
+  .eyebrow::before { content: ""; width: 34px; height: 1px; background: var(--gold); display: inline-block; }
+
+  h1, h2, h3 { font-family: var(--serif); font-weight: 500; line-height: 1.04; letter-spacing: -0.01em; }
+  .display { font-size: clamp(52px, 11vw, 150px); font-weight: 500; line-height: 0.92; }
+  .section-title { font-size: clamp(34px, 5vw, 60px); }
+  .section-title em { font-style: italic; color: var(--gold); }
+  p.lead { font-size: clamp(17px, 1.5vw, 21px); color: var(--cream-dim); font-weight: 300; max-width: 60ch; }
+
+  /* buttons */
+  .btn {
+    font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 17px 34px; border: 1px solid var(--gold); color: var(--navy-900); background: var(--gold);
+    cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 12px;
+    transition: all 0.4s var(--ease); border-radius: 2px;
+  }
+  .btn:hover { background: var(--gold-bright); border-color: var(--gold-bright); transform: translateY(-2px); }
+  .btn.ghost { background: transparent; color: var(--cream); border-color: var(--line); }
+  .btn.ghost:hover { border-color: var(--gold); color: var(--gold); background: transparent; transform: translateY(-2px); }
+
+  /* nav */
+  header.nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    transition: background .5s var(--ease), padding .5s var(--ease), border-color .5s var(--ease), backdrop-filter .5s var(--ease);
+    padding: 26px 0; border-bottom: 1px solid transparent;
+  }
+  header.nav.scrolled { background: rgba(8,20,31,.88); backdrop-filter: blur(14px); padding: 15px 0; border-bottom: 1px solid var(--line-soft); }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; }
+  .brand { display: flex; flex-direction: column; line-height: 1; text-decoration: none; }
+  .brand .name { font-family: var(--serif); font-size: 27px; letter-spacing: 0.22em; color: var(--cream); font-weight: 600; }
+  .brand .by { font-size: 9.5px; letter-spacing: 0.42em; text-transform: uppercase; color: var(--gold); margin-top: 5px; padding-left: 3px; }
+  .nav-links { display: flex; align-items: center; gap: 34px; }
+  .nav-links a { color: var(--cream-dim); text-decoration: none; font-size: 13px; letter-spacing: .05em; font-weight: 500; transition: color .3s; position: relative; }
+  .nav-links a:not(.btn)::after { content: ""; position: absolute; left: 0; bottom: -6px; width: 0; height: 1px; background: var(--gold); transition: width .35s var(--ease); }
+  .nav-links a:not(.btn):hover { color: var(--cream); }
+  .nav-links a:not(.btn):hover::after { width: 100%; }
+  .nav-cta { padding: 12px 24px; font-size: 11px; white-space: nowrap; }
+
+  .burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; }
+  .burger span { width: 26px; height: 1.5px; background: var(--cream); transition: .3s var(--ease); }
+  .burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .burger.open span:nth-child(2) { opacity: 0; }
+  .burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+  .mobile-menu { position: fixed; inset: 0; z-index: 99; background: var(--navy-900); display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 26px; transform: translateX(100%); transition: transform .55s var(--ease); }
+  .mobile-menu.open { transform: translateX(0); }
+  .mobile-menu a { color: var(--cream); text-decoration: none; font-family: var(--serif); font-size: 32px; }
+  .mobile-menu a:hover { color: var(--gold); }
+
+  /* hero */
+  .hero { position: relative; min-height: 100vh; display: flex; align-items: flex-end; overflow: hidden; }
+  .hero-img { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; }
+  .hero::after {
+    content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background: linear-gradient(to top, rgba(8,20,31,.97) 0%, rgba(8,20,31,.35) 48%, rgba(8,20,31,.55) 100%),
+                linear-gradient(to right, rgba(8,20,31,.7) 0%, rgba(8,20,31,.1) 62%);
+  }
+  .hero-content { position: relative; z-index: 2; padding-bottom: 74px; padding-top: 140px; width: 100%; }
+  .hero-content .eyebrow { margin-bottom: 24px; }
+  .hero h1 { margin-bottom: 18px; }
+  .hero-tag { font-family: var(--serif); font-style: italic; font-size: clamp(22px, 3vw, 34px); color: var(--gold); margin-bottom: 22px; }
+  .hero-sub { max-width: 52ch; font-size: clamp(16px,1.5vw,21px); font-weight: 300; color: var(--cream-dim); margin-bottom: 38px; }
+  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+  .hero-loc { position: absolute; right: 32px; bottom: 74px; z-index: 2; text-align: right; max-width: 230px; }
+  .hero-loc .label { font-size: 10.5px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+  .hero-loc .addr { font-size: 14px; color: var(--cream-dim); font-weight: 300; line-height: 1.5; }
+  .scroll-hint { position: absolute; left: 50%; bottom: 28px; transform: translateX(-50%); z-index: 2; font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: var(--cream-faint); display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .scroll-hint .line { width: 1px; height: 42px; background: linear-gradient(var(--gold), transparent); animation: pulse 2.4s var(--ease) infinite; }
+  @keyframes pulse { 0%,100%{opacity:.3;transform:scaleY(.7);} 50%{opacity:1;transform:scaleY(1);} }
+
+  section { position: relative; }
+  .pad { padding: clamp(84px, 11vw, 150px) 0; }
+
+  /* stats strip */
+  .stats { background: var(--navy-850); border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+  .stat { padding: 46px 28px; text-align: center; border-right: 1px solid var(--line-soft); }
+  .stat:last-child { border-right: none; }
+  .stat .num { font-family: var(--serif); font-size: clamp(40px, 4.5vw, 60px); color: var(--gold); line-height: 1; }
+  .stat .lab { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--cream-dim); margin-top: 12px; }
+
+  /* about */
+  .about-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 80px; align-items: center; }
+  .about-text .eyebrow { margin-bottom: 28px; }
+  .about-text .section-title { margin-bottom: 28px; }
+  .about-text p.lead { margin-bottom: 20px; }
+  .about-img { position: relative; }
+  .about-img img { width: 100%; height: 600px; object-fit: cover; border-radius: 3px; }
+  .about-img .frame-tag { position: absolute; bottom: 22px; left: 22px; background: rgba(8,20,31,.82); backdrop-filter: blur(6px); padding: 11px 17px; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); border: 1px solid var(--line); }
+
+  /* diferenciais */
+  .dif { background: var(--navy-850); }
+  .dif-head { max-width: 720px; margin-bottom: 64px; }
+  .dif-head .section-title { margin-top: 22px; }
+  .dif-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-soft); border: 1px solid var(--line-soft); }
+  .dif-item { background: var(--navy-850); padding: 34px 28px; transition: background .4s var(--ease); }
+  .dif-item:hover { background: var(--navy-800); }
+  .dif-item .n { font-size: 11px; letter-spacing: .2em; color: var(--gold); opacity: .8; }
+  .dif-item p { font-size: 16px; color: var(--cream); font-weight: 400; margin-top: 16px; line-height: 1.45; }
+
+  /* lazer gallery */
+  .lazer-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; margin-bottom: 56px; flex-wrap: wrap; }
+  .lazer-head .section-title { max-width: 14ch; margin-top: 22px; }
+  .lazer-head p.lead { max-width: 40ch; }
+  .gallery { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 230px; gap: 14px; }
+  figure.tile { position: relative; overflow: hidden; border-radius: 3px; cursor: pointer; background: var(--navy-800); }
+  figure.tile img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease); }
+  figure.tile:hover img { transform: scale(1.06); }
+  figure.tile figcaption { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; padding: 22px 20px 18px; background: linear-gradient(to top, rgba(8,20,31,.92), transparent); display: flex; flex-direction: column; gap: 3px; }
+  figure.tile figcaption .t { font-family: var(--serif); font-size: 23px; color: var(--cream); }
+  figure.tile figcaption .s { font-size: 10.5px; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); }
+  .t-wide { grid-column: span 2; }
+  .t-tall { grid-row: span 2; }
+  .lazer-note { margin-top: 22px; font-size: 12px; color: var(--cream-faint); }
+
+  /* tipologias */
+  .tipo { background: var(--navy-850); }
+  .tipo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  .tipo-img img { width: 100%; height: 520px; object-fit: cover; border-radius: 3px; }
+  .tipo-text .eyebrow { margin-bottom: 26px; }
+  .tipo-text .section-title { margin-bottom: 22px; }
+  .tipo-text p.lead { margin-bottom: 36px; }
+  .tipo-cards { display: grid; gap: 16px; }
+  .tipo-card { border: 1px solid var(--line); padding: 26px 28px; border-radius: 3px; display: flex; justify-content: space-between; align-items: center; gap: 20px; transition: border-color .3s, background .3s; }
+  .tipo-card:hover { border-color: var(--gold); background: var(--navy-800); }
+  .tipo-card .name { font-family: var(--serif); font-size: 25px; color: var(--cream); }
+  .tipo-card .meta { font-size: 13px; color: var(--cream-dim); margin-top: 6px; letter-spacing: .02em; }
+  .tipo-card .area { font-family: var(--serif); font-size: 30px; color: var(--gold); white-space: nowrap; }
+
+  /* green plan */
+  .green { border-top: 1px solid var(--line-soft); }
+  .green-grid { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 56px; align-items: start; }
+  .green-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0 40px; }
+  .green-list div { padding: 16px 0; border-bottom: 1px solid var(--line-soft); font-size: 15px; color: var(--cream-dim); font-weight: 300; display: flex; gap: 12px; align-items: baseline; }
+  .green-list div::before { content: ""; width: 6px; height: 6px; background: var(--gold); border-radius: 50%; flex-shrink: 0; transform: translateY(-2px); }
+
+  /* localizacao */
+  .loc { background: var(--navy-850); }
+  .loc-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 64px; align-items: stretch; }
+  .loc-text .eyebrow { margin-bottom: 26px; }
+  .loc-text .section-title { margin-bottom: 24px; }
+  .loc-addr { font-size: 19px; color: var(--cream); font-weight: 500; line-height: 1.5; margin-bottom: 12px; font-family: var(--serif); }
+  .loc-addr .city { color: var(--gold); }
+  .loc-list { list-style: none; margin-top: 32px; border-top: 1px solid var(--line); }
+  .loc-list li { padding: 16px 0; border-bottom: 1px solid var(--line-soft); display: flex; align-items: baseline; gap: 14px; font-size: 15px; color: var(--cream-dim); font-weight: 300; }
+  .loc-list li::before { content: ""; width: 7px; height: 7px; border: 1px solid var(--gold); transform: rotate(45deg) translateY(-1px); flex-shrink: 0; }
+  .map-wrap { position: relative; min-height: 500px; border: 1px solid var(--line); overflow: hidden; border-radius: 3px; }
+  .map-wrap iframe { width: 100%; height: 100%; min-height: 500px; border: 0; filter: grayscale(.35) invert(.92) hue-rotate(180deg) contrast(.9); }
+
+  /* form */
+  .form-sec { position: relative; overflow: hidden; }
+  .form-bg { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; opacity: .16; }
+  .form-sec::after { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(to right, var(--navy-900) 36%, rgba(8,20,31,.6)); pointer-events: none; }
+  .form-grid { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .form-intro .eyebrow { margin-bottom: 26px; }
+  .form-intro .section-title { margin-bottom: 22px; }
+  .form-intro p.lead { margin-bottom: 34px; }
+  .form-contact { font-size: 15px; color: var(--cream-dim); font-weight: 300; line-height: 2; }
+  .form-contact a { color: var(--gold); text-decoration: none; }
+  form.lead-form { background: var(--navy-850); border: 1px solid var(--line); padding: 44px; border-radius: 3px; }
+  .field { margin-bottom: 22px; }
+  .field label { display: block; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--cream-dim); margin-bottom: 9px; }
+  .field input, .field textarea { width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--line-soft); color: var(--cream); font-family: var(--sans); font-size: 16px; padding: 11px 2px; transition: border-color .3s; }
+  .field input:focus, .field textarea:focus { outline: none; border-bottom-color: var(--gold); }
+  .field textarea { resize: vertical; min-height: 62px; }
+  .field.error input, .field.error textarea { border-bottom-color: #d9776a; }
+  .field .err-msg { font-size: 12px; color: #e0897d; margin-top: 7px; display: none; }
+  .field.error .err-msg { display: block; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .consent { display: flex; gap: 12px; align-items: flex-start; margin: 4px 0 26px; }
+  .consent input { width: 17px; height: 17px; margin-top: 3px; accent-color: var(--gold); flex-shrink: 0; }
+  .consent label { font-size: 12.5px; color: var(--cream-faint); line-height: 1.5; }
+  form.lead-form .btn { width: 100%; justify-content: center; }
+  .form-success { display: none; text-align: center; padding: 30px 10px; }
+  .form-success.show { display: block; }
+  .form-success .check { width: 60px; height: 60px; border: 1px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 22px; color: var(--gold); font-size: 28px; }
+  .form-success h3 { font-size: 32px; margin-bottom: 12px; }
+  .form-success p { color: var(--cream-dim); font-weight: 300; }
+
+  /* footer */
+  footer { background: var(--navy-900); border-top: 1px solid var(--line-soft); padding: 70px 0 34px; }
+  .foot-top { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 50px; padding-bottom: 46px; border-bottom: 1px solid var(--line-soft); }
+  .foot-brand .name { font-family: var(--serif); font-size: 34px; letter-spacing: .2em; color: var(--cream); }
+  .foot-brand .by { font-size: 10px; letter-spacing: .4em; text-transform: uppercase; color: var(--gold); margin: 10px 0 22px; }
+  .foot-brand p { font-size: 14px; color: var(--cream-dim); font-weight: 300; max-width: 38ch; }
+  .foot-col h4 { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; font-weight: 600; }
+  .foot-col a, .foot-col p { display: block; font-size: 14px; color: var(--cream-dim); text-decoration: none; font-weight: 300; margin-bottom: 12px; transition: color .3s; }
+  .foot-col a:hover { color: var(--gold); }
+  .foot-bottom { padding-top: 28px; }
+  .foot-bottom p { font-size: 11.5px; color: var(--cream-faint); font-weight: 300; line-height: 1.7; margin-bottom: 8px; }
+
+  .foot-realiz { margin-top: 28px; }
+  .foot-realiz .lbl { font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: var(--cream-faint); margin-bottom: 13px; }
+  .embraplan-logo { height: 30px; width: auto; filter: brightness(0) invert(1); opacity: .92; }
+  .form-err { display: none; margin-top: 16px; font-size: 13px; color: #e0897d; text-align: center; line-height: 1.55; }
+  .form-err.show { display: block; }
+  .form-err a { color: var(--gold); text-decoration: none; }
+
+  /* lightbox */
+  .lightbox { position: fixed; inset: 0; z-index: 200; background: rgba(8,20,31,.95); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; padding: 40px; }
+  .lightbox.open { display: flex; }
+  .lightbox img { max-width: 92vw; max-height: 86vh; object-fit: contain; border-radius: 3px; }
+  .lightbox .lb-cap { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); font-family: var(--serif); font-size: 24px; color: var(--cream); }
+  .lightbox .lb-close { position: absolute; top: 26px; right: 32px; background: none; border: 1px solid var(--line); color: var(--cream); width: 46px; height: 46px; border-radius: 50%; font-size: 22px; cursor: pointer; transition: all .3s; }
+  .lightbox .lb-close:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* reveal */
+  .reveal { opacity: 0; transform: translateY(32px); transition: opacity 1s var(--ease), transform 1s var(--ease); }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (max-width: 1000px) {
+    .about-grid, .loc-grid, .form-grid, .tipo-grid, .green-grid { grid-template-columns: 1fr; gap: 48px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .stat:nth-child(2) { border-right: none; }
+    .stat:nth-child(1), .stat:nth-child(2) { border-bottom: 1px solid var(--line-soft); }
+    .dif-grid { grid-template-columns: repeat(2, 1fr); }
+    .gallery { grid-template-columns: repeat(2, 1fr); }
+    .about-img img { height: 440px; }
+    .tipo-img img { height: 380px; }
+  }
+  @media (max-width: 680px) {
+    .wrap { padding: 0 22px; }
+    .nav-links { display: none; }
+    .burger { display: flex; }
+    .hero-loc { display: none; }
+    .dif-grid { grid-template-columns: 1fr; }
+    .gallery { grid-template-columns: 1fr; grid-auto-rows: 220px; }
+    .t-wide { grid-column: span 1; }
+    .t-tall { grid-row: span 1; }
+    .green-list { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    form.lead-form { padding: 30px 24px; }
+    .lazer-head, .dif-head { align-items: flex-start; }
+    .tipo-card { flex-direction: column; align-items: flex-start; gap: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="#top" class="brand">
+      <span class="name">VICENZA</span>
+      <span class="by">Residencial · by Embraplan</span>
+    </a>
+    <nav class="nav-links">
+      <a href="#sobre">O Empreendimento</a>
+      <a href="#lazer">Lazer</a>
+      <a href="#plantas">Plantas</a>
+      <a href="#local">Localização</a>
+      <a href="#contato" class="btn nav-cta">Agende sua visita</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#sobre">O Empreendimento</a>
+  <a href="#lazer">Lazer</a>
+  <a href="#plantas">Plantas</a>
+  <a href="#local">Localização</a>
+  <a href="#contato">Agende sua visita</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <img class="hero-img" src="images/06.png" alt="Piscina do Vicenza Residencial" />
+  <div class="wrap hero-content">
+    <span class="eyebrow">Embraplan apresenta</span>
+    <h1 class="display">Vicenza</h1>
+    <div class="hero-tag">Residencial</div>
+    <p class="hero-sub">Conforto, comodidade, segurança e lazer em um só lugar. Apartamentos de 2 dormitórios no bairro São Pedro, em Osasco — onde cada detalhe transforma o seu lar em um verdadeiro clube.</p>
+    <div class="hero-actions">
+      <a href="#contato" class="btn">Quero conhecer</a>
+      <a href="#lazer" class="btn ghost">Ver o lazer</a>
+    </div>
+  </div>
+  <div class="hero-loc">
+    <div class="label">Localização</div>
+    <div class="addr">Tv. Três de Outubro, 111<br />São Pedro · Osasco · SP</div>
+  </div>
+  <div class="scroll-hint"><span>Role</span><span class="line"></span></div>
+</section>
+
+<!-- STATS -->
+<section class="stats">
+  <div class="wrap">
+    <div class="stats-grid">
+      <div class="stat reveal"><div class="num">315</div><div class="lab">Unidades</div></div>
+      <div class="stat reveal"><div class="num">20</div><div class="lab">Pavimentos</div></div>
+      <div class="stat reveal"><div class="num">2</div><div class="lab">Dormitórios</div></div>
+      <div class="stat reveal"><div class="num">40–87</div><div class="lab">m² · de tipo a garden</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE -->
+<section class="pad" id="sobre">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <span class="eyebrow">O Empreendimento</span>
+        <h2 class="section-title">A oportunidade de morar bem <em>em um bairro em pleno crescimento.</em></h2>
+        <p class="lead">Descubra o Vicenza Residencial — o equilíbrio ideal entre conforto e conveniência, no bairro São Pedro, em Osasco. Uma região em constante evolução, que se torna um novo polo residencial com fácil acesso a tudo que você precisa.</p>
+        <p class="lead">Sinta a diferença no conceito de moradia da Embraplan: ampla área de lazer entregue equipada e decorada, e detalhes pensados para transformar a sua rotina em experiência.</p>
+      </div>
+      <div class="about-img reveal">
+        <img src="images/02.png" alt="Living decorado do apartamento Vicenza" />
+        <span class="frame-tag">Perspectiva ilustrada · living</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIFERENCIAIS -->
+<section class="pad dif" id="diferenciais">
+  <div class="wrap">
+    <div class="dif-head reveal">
+      <span class="eyebrow">Diferenciais</span>
+      <h2 class="section-title">Pensado nos <em>detalhes</em> que importam.</h2>
+    </div>
+    <div class="dif-grid reveal">
+      <div class="dif-item"><div class="n">01</div><p>Ampla área de lazer, entregue equipada e decorada</p></div>
+      <div class="dif-item"><div class="n">02</div><p>Varanda integrada e envidraçada em todos os apartamentos</p></div>
+      <div class="dif-item"><div class="n">03</div><p>Esquadria de alumínio com persiana integrada nos dormitórios</p></div>
+      <div class="dif-item"><div class="n">04</div><p>Todas as vagas de garagem cobertas</p></div>
+      <div class="dif-item"><div class="n">05</div><p>4 elevadores para o conforto do dia a dia</p></div>
+      <div class="dif-item"><div class="n">06</div><p>Infraestrutura preparada para aquecedor a gás</p></div>
+      <div class="dif-item"><div class="n">07</div><p>Espaço para Pet Care, Lavanderia e minimercado no térreo*</p></div>
+      <div class="dif-item"><div class="n">08</div><p>Previsão de apenas 11% de vagas de garagem presas</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- LAZER / GALERIA -->
+<section class="pad" id="lazer">
+  <div class="wrap">
+    <div class="lazer-head reveal">
+      <div>
+        <span class="eyebrow">Área de lazer completa</span>
+        <h2 class="section-title">Seu condomínio, um <em>clube</em> particular.</h2>
+      </div>
+      <p class="lead">Entregue equipada e decorada, com espaços para todas as idades — do esporte ao descanso, do trabalho ao convívio com a família.</p>
+    </div>
+
+    <div class="gallery reveal">
+      <figure class="tile t-wide t-tall" data-cap="Vista aérea · área de lazer"><img src="images/01.png" alt="Vista aérea da área de lazer" /><figcaption><span class="s">Implantação</span><span class="t">Vista aérea do lazer</span></figcaption></figure>
+      <figure class="tile" data-cap="Piscina adulto e infantil"><img src="images/06.png" alt="Piscina" /><figcaption><span class="s">Entregue decorada</span><span class="t">Piscina</span></figcaption></figure>
+      <figure class="tile" data-cap="Quadra poliesportiva"><img src="images/07.png" alt="Quadra" /><figcaption><span class="s">Esporte</span><span class="t">Quadra</span></figcaption></figure>
+      <figure class="tile" data-cap="Academia equipada"><img src="images/05.png" alt="Academia" /><figcaption><span class="s">Equipada</span><span class="t">Academia</span></figcaption></figure>
+      <figure class="tile" data-cap="Playground"><img src="images/04.png" alt="Playground" /><figcaption><span class="s">Para as crianças</span><span class="t">Playground</span></figcaption></figure>
+      <figure class="tile t-wide" data-cap="Brinquedoteca"><img src="images/09.png" alt="Brinquedoteca" /><figcaption><span class="s">Lúdico e seguro</span><span class="t">Brinquedoteca</span></figcaption></figure>
+      <figure class="tile" data-cap="Office · espaço de trabalho"><img src="images/11.png" alt="Office" /><figcaption><span class="s">Coworking</span><span class="t">Office</span></figcaption></figure>
+      <figure class="tile" data-cap="Pet Care"><img src="images/12.png" alt="Pet Care" /><figcaption><span class="s">Para o seu pet*</span><span class="t">Pet Care</span></figcaption></figure>
+      <figure class="tile" data-cap="Lavanderia"><img src="images/10.png" alt="Lavanderia" /><figcaption><span class="s">Praticidade*</span><span class="t">Lavanderia</span></figcaption></figure>
+      <figure class="tile" data-cap="Minimercado"><img src="images/08.png" alt="Minimercado" /><figcaption><span class="s">No térreo*</span><span class="t">Minimercado</span></figcaption></figure>
+    </div>
+    <p class="lazer-note">Mais espaços de lazer: Espaço Gourmet, Salão de Festas, Salão de Jogos, Praça e Pet Place. *Espaços com infraestrutura preparada, a serem implantados futuramente pelo condomínio. Imagens meramente ilustrativas.</p>
+  </div>
+</section>
+
+<!-- PLANTAS / TIPOLOGIAS -->
+<section class="pad tipo" id="plantas">
+  <div class="wrap">
+    <div class="tipo-grid">
+      <div class="tipo-img reveal"><img src="images/03.png" alt="Sala de estar e jantar do apartamento" /></div>
+      <div class="tipo-text reveal">
+        <span class="eyebrow">Plantas & tipologias</span>
+        <h2 class="section-title">Apartamentos de <em>2 dormitórios.</em></h2>
+        <p class="lead">Plantas inteligentes com varanda integrada e envidraçada, do compacto ideal ao amplo garden — todas com 1 vaga coberta.</p>
+        <div class="tipo-cards">
+          <div class="tipo-card">
+            <div><div class="name">Planta Tipo</div><div class="meta">2 dorms · 1 banheiro · 1 vaga</div></div>
+            <div class="area">40 – 41 m²</div>
+          </div>
+          <div class="tipo-card">
+            <div><div class="name">Gardens</div><div class="meta">2 dorms · 1 banheiro · 1 vaga · 11 unidades</div></div>
+            <div class="area">55 – 87 m²</div>
+          </div>
+        </div>
+        <p class="lazer-note" style="margin-top:24px;">Plantas detalhadas apresentadas na visita. Imagens meramente ilustrativas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GREEN PLAN -->
+<section class="pad green">
+  <div class="wrap">
+    <div class="green-grid">
+      <div class="reveal">
+        <span class="eyebrow">Green Plan</span>
+        <h2 class="section-title" style="margin-top:22px;">Sustentável por <em>dentro.</em></h2>
+      </div>
+      <div class="green-list reveal">
+        <div>Bacias com acionamento dual flush</div>
+        <div>Lâmpadas LED e sensor de presença nos halls</div>
+        <div>Redutores de vazão (economia de água)</div>
+        <div>Chuveiros com aquecimento a gás</div>
+        <div>Reservatório de água da chuva para os jardins</div>
+        <div>Reserva de áreas permeáveis</div>
+        <div>Amplo paisagismo e coleta seletiva</div>
+        <div>Utilização de madeira certificada</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOCALIZAÇÃO -->
+<section class="pad loc" id="local">
+  <div class="wrap">
+    <div class="loc-grid">
+      <div class="loc-text reveal">
+        <span class="eyebrow">Localização</span>
+        <h2 class="section-title">Excelente <em>localização</em> em Osasco.</h2>
+        <p class="loc-addr">Travessa Três de Outubro, 111<br /><span class="city">São Pedro · Osasco · SP</span></p>
+        <ul class="loc-list">
+          <li>Acesso ao Rodoanel Mário Covas</li>
+          <li>Estação General Miguel Costa — Linha 8 (Diamante)</li>
+          <li>Terminal EMTU Luiz Bortolosso</li>
+          <li>UNIFESP — Campus Osasco</li>
+          <li>Avenida dos Autonomistas e Av. João Batista Mascarenhas</li>
+          <li>Comércio e serviços ao redor — divisa com Cidade das Flores</li>
+        </ul>
+      </div>
+      <div class="map-wrap reveal">
+        <iframe
+          src="https://maps.google.com/maps?q=Travessa%20Tr%C3%AAs%20de%20Outubro%2C%20111%20-%20Osasco%2C%20SP&t=&z=15&ie=UTF8&iwloc=&output=embed"
+          loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Localização do Vicenza Residencial"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section class="pad form-sec" id="contato">
+  <img class="form-bg" src="images/01.png" alt="" />
+  <div class="wrap">
+    <div class="form-grid">
+      <div class="form-intro reveal">
+        <span class="eyebrow">Fale conosco</span>
+        <h2 class="section-title">Agende sua <em>visita.</em></h2>
+        <p class="lead">Deixe seus dados e um consultor da Embraplan entrará em contato para apresentar o Vicenza Residencial e tirar todas as suas dúvidas.</p>
+        <div class="form-contact">
+          <div>Atendimento Embraplan</div>
+          <div><a href="tel:+5511938001012">(11) 93800-1012</a> · <a href="https://embraplan.com" target="_blank" rel="noopener">embraplan.com</a></div>
+          <div>Travessa Três de Outubro, 111 — Osasco/SP</div>
+        </div>
+      </div>
+      <div class="reveal">
+        <form class="lead-form" id="leadForm" novalidate>
+          <div class="field">
+            <label for="nome">Nome completo</label>
+            <input type="text" id="nome" name="nome" placeholder="Seu nome" />
+            <span class="err-msg">Por favor, informe seu nome.</span>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="email">E-mail</label>
+              <input type="email" id="email" name="email" placeholder="voce@email.com" />
+              <span class="err-msg">Informe um e-mail válido.</span>
+            </div>
+            <div class="field">
+              <label for="tel">Telefone / WhatsApp</label>
+              <input type="tel" id="tel" name="tel" placeholder="(11) 90000-0000" />
+              <span class="err-msg">Informe um telefone com DDD.</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="msg">Mensagem (opcional)</label>
+            <textarea id="msg" name="msg" placeholder="Conte o que você procura..."></textarea>
+          </div>
+          <div class="consent">
+            <input type="checkbox" id="consent" name="consent" />
+            <label for="consent">Autorizo o contato da Embraplan e concordo com a Política de Privacidade para o tratamento dos meus dados.</label>
+          </div>
+          <button type="submit" class="btn">Quero ser contatado</button>
+          <p class="form-err" id="formErr">Não foi possível enviar agora. Tente novamente ou fale conosco pelo WhatsApp <a href="https://wa.me/5511938001012" target="_blank" rel="noopener">(11) 93800-1012</a>.</p>
+        </form>
+        <div class="form-success" id="formSuccess">
+          <div class="check">✓</div>
+          <h3>Recebemos seu contato!</h3>
+          <p>Em breve um consultor Embraplan falará com você. Obrigado pelo interesse no Vicenza Residencial.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="name">VICENZA</div>
+        <div class="by">Residencial</div>
+        <p>Conforto, lazer e segurança reunidos em um só endereço, no bairro São Pedro, em Osasco.</p>
+        <div class="foot-realiz">
+          <div class="lbl">Realização</div>
+          <img class="embraplan-logo" src="images/embraplan-logo.svg" alt="Embraplan — Construção e Incorporação" />
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Navegação</h4>
+        <a href="#sobre">O Empreendimento</a>
+        <a href="#lazer">Lazer</a>
+        <a href="#plantas">Plantas</a>
+        <a href="#local">Localização</a>
+        <a href="#contato">Agende sua visita</a>
+      </div>
+      <div class="foot-col">
+        <h4>Contato</h4>
+        <p>Travessa Três de Outubro, 111<br />São Pedro · Osasco · SP</p>
+        <a href="tel:+5511938001012">(11) 93800-1012</a>
+        <a href="https://embraplan.com" target="_blank" rel="noopener">embraplan.com</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>Projeto aprovado pela Prefeitura do Município de Osasco/SP — processo nº 9135/20, Alvará de Licença nº 118/27, expedido em 05/03/2021. O empreendimento só será comercializado após a conclusão do processo de registro.</p>
+      <p>Imagens meramente ilustrativas e sujeitas a alteração. Os acabamentos, móveis e demais elementos elucidativos das ilustrações são meramente sugestivos e serão entregues conforme memorial descritivo. © 2026 Embraplan — Construção e Incorporação.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="lbClose" aria-label="Fechar">×</button>
+  <img id="lbImg" alt="" />
+  <div class="lb-cap" id="lbCap"></div>
+</div>
+
+<script>
+  // nav scroll
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // mobile menu
+  const burger = document.getElementById('burger');
+  const menu = document.getElementById('mobileMenu');
+  const toggleMenu = (state) => {
+    const open = state ?? !menu.classList.contains('open');
+    menu.classList.toggle('open', open);
+    burger.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  };
+  burger.addEventListener('click', () => toggleMenu());
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
+
+  // reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -7% 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // lightbox
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lbImg');
+  const lbCap = document.getElementById('lbCap');
+  document.querySelectorAll('figure.tile').forEach(fig => {
+    fig.addEventListener('click', () => {
+      lbImg.src = fig.querySelector('img').src;
+      lbCap.textContent = fig.dataset.cap || '';
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  const closeLb = () => { lb.classList.remove('open'); document.body.style.overflow = ''; };
+  document.getElementById('lbClose').addEventListener('click', closeLb);
+  lb.addEventListener('click', (e) => { if (e.target === lb) closeLb(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLb(); });
+
+  // form validation + envio ao CRM
+  const form = document.getElementById('leadForm');
+  const success = document.getElementById('formSuccess');
+  const formErr = document.getElementById('formErr');
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const setError = (id, on) => document.getElementById(id).closest('.field').classList.toggle('error', on);
+
+  const CRM_URL = 'https://vendas.gestorimob.com.br/api/public/contato';
+  const CRM_KEY = 'bbc75188dae048ed46babef473a1ceb4251d828b02c4e828d93a5786d34b39af';
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const nome = document.getElementById('nome');
+    const email = document.getElementById('email');
+    const tel = document.getElementById('tel');
+    const msg = document.getElementById('msg');
+    const consent = document.getElementById('consent');
+    const nomeOk = nome.value.trim().length >= 2;
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim());
+    const telOk = tel.value.replace(/\D/g, '').length >= 10;
+    setError('nome', !nomeOk); setError('email', !emailOk); setError('tel', !telOk);
+    let ok = nomeOk && emailOk && telOk;
+    if (!consent.checked) { consent.style.outline = '1px solid #d9776a'; ok = false; } else { consent.style.outline = 'none'; }
+    if (!ok) return;
+
+    formErr.classList.remove('show');
+    const orig = submitBtn.textContent;
+    submitBtn.textContent = 'Enviando...';
+    submitBtn.disabled = true;
+
+    try {
+      const res = await fetch(CRM_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-api-key': CRM_KEY },
+        body: JSON.stringify({
+          nome: nome.value.trim(),
+          email: email.value.trim(),
+          telefone: tel.value.trim(),
+          assunto: 'Lead — Vicenza Residencial (Landing Page)',
+          mensagem: msg.value.trim() || 'Tenho interesse no Vicenza Residencial e gostaria de agendar uma visita.'
+        })
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      form.style.display = 'none';
+      success.classList.add('show');
+    } catch (err) {
+      submitBtn.textContent = orig;
+      submitBtn.disabled = false;
+      formErr.classList.add('show');
+    }
+  });
+  ['nome','email','tel'].forEach(id => document.getElementById(id).addEventListener('input', () => setError(id, false)));
+  document.getElementById('consent').addEventListener('change', (e) => { if (e.target.checked) e.target.style.outline = 'none'; });
+
+  // phone mask (BR)
+  const tel = document.getElementById('tel');
+  tel.addEventListener('input', () => {
+    let v = tel.value.replace(/\D/g, '').slice(0, 11);
+    if (v.length > 6) v = v.replace(/(\d{2})(\d{5})(\d{0,4}).*/, '($1) $2-$3');
+    else if (v.length > 2) v = v.replace(/(\d{2})(\d{0,5})/, '($1) $2');
+    else if (v.length > 0) v = v.replace(/(\d{0,2})/, '($1');
+    tel.value = v;
+  });
+</script>
+
+</body>
+</html>
